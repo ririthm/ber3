@@ -13,7 +13,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center">
-            <Image src="/logo.png" alt="NutriMatch Logo" width={120} height={40} priority />
+            <Image src="/logo-white.png" alt="NutriMatch Logo White" width={120} height={40} priority />
           </Link>
 
           {/* Desktop Navigation */}

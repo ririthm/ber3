@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "../components/ui/button";
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
       <section className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-50 to-white px-4 py-20">
         <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
           <div className="flex flex-col space-y-6 max-w-xl">
-            <Image src="/logo.png" alt="NutriMatch Logo" width={180} height={60} className="mb-4" />
+            <Image src="/logo-white.png" alt="NutriMatch Logo White" width={180} height={60} className="mb-4" />
             <h1 className="text-4xl md:text-6xl font-bold text-green-800">Find Your Perfect Nutritional Balance</h1>
             <p className="text-xl text-gray-600">
               Discover foods that match your nutritional needs and preferences for a healthier lifestyle.
@@ -126,7 +126,7 @@ export default function Home() {
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center mb-4 md:mb-0">
-              <Image src="/logo-white.png" alt="NutriMatch Logo" width={120} height={40} className="mr-2" />
+              <Image src="/logo.png" alt="NutriMatch Logo" width={120} height={40} className="mr-2" />
               <span className="text-sm">Match Your Meal</span>
             </div>
             <div className="text-sm">© {new Date().getFullYear()} NutriMatch. All rights reserved.</div>

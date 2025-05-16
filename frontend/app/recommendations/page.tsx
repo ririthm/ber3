@@ -1,12 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";  
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Slider } from "@/components/ui/slider"
-import { Label } from "@/components/ui/label"
+import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
+import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import Image from "next/image";  
 
 // Types for our food data
 interface Food {
@@ -49,27 +49,48 @@ export default function FoodRecommendations() {
     setError(null)
 
     try {
-      const params = new URLSearchParams({
-        ...(category && { category }),
-        calories: calories[0].toString(),
-        fat: fat[0].toString(),
-        saturated_fat: saturatedFat[0].toString(),
-        cholesterol: cholesterol[0].toString(),
-        sodium: sodium[0].toString(),
-        carbohydrates: carbohydrates[0].toString(),
-        fiber: fiber[0].toString(),
-        sugar: sugar[0].toString(),
-        protein: protein[0].toString(),
+      const response = await fetch("http://127.0.0.1:8000/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          category,
+          calories: calories[0],
+          fat_content: fat[0],
+          saturated_fat_content: saturatedFat[0],
+          cholesterol_content: cholesterol[0],
+          sodium_content: sodium[0],
+          carbohydrate_content: carbohydrates[0],
+          fiber_content: fiber[0],
+          sugar_content: sugar[0],
+          protein_content: protein[0],
+        }),
       })
-
-      const response = await fetch(`/api/recommendations?${params.toString()}`)
 
       if (!response.ok) {
         throw new Error("Failed to fetch food recommendations")
       }
 
       const data = await response.json()
-      setFoods(data)
+
+      // Konversi string ke number untuk nutrisi jika data ada
+      const updatedFoods = data.map((food: any) => ({
+        ...food,
+        nutrition: {
+          calories: parseFloat(food.nutrition.calories || "0"),
+          fat_content: parseFloat(food.nutrition.fat_content || "0"),
+          saturated_fat_content: parseFloat(food.nutrition.saturated_fat_content || "0"),
+          cholesterol_content: parseFloat(food.nutrition.cholesterol_content || "0"),
+          sodium_content: parseFloat(food.nutrition.sodium_content || "0"),
+          carbohydrate_content: parseFloat(food.nutrition.carbohydrate_content || "0"),
+          fiber_content: parseFloat(food.nutrition.fiber_content || "0"),
+          sugar_content: parseFloat(food.nutrition.sugar_content || "0"),
+          protein_content: parseFloat(food.nutrition.protein_content || "0"),
+        },
+      }));
+
+      setFoods(updatedFoods)  // Update state with the fetched data
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred")
       console.error(err)
@@ -80,7 +101,7 @@ export default function FoodRecommendations() {
 
   // Handle search button click
   const handleSearch = () => {
-    fetchFoodRecommendations()
+    fetchFoodRecommendations()  // Call the API when search is clicked
   }
 
   return (
@@ -250,19 +271,19 @@ export default function FoodRecommendations() {
                     <div className="grid grid-cols-2 gap-2">
                       <div className="bg-green-50 p-2 rounded">
                         <p className="text-sm text-gray-500">Calories</p>
-                        <p className="font-semibold">{food.calories}g</p>
+                        <p className="font-semibold">{food.nutrition.calories}g</p>
                       </div>
                       <div className="bg-green-50 p-2 rounded">
                         <p className="text-sm text-gray-500">Protein</p>
-                        <p className="font-semibold">{food.protein}g</p>
+                        <p className="font-semibold">{food.nutrition.protein_content}g</p>
                       </div>
                       <div className="bg-green-50 p-2 rounded">
                         <p className="text-sm text-gray-500">Carbs</p>
-                        <p className="font-semibold">{food.carbohydrates}g</p>
+                        <p className="font-semibold">{food.nutrition.carbohydrate_content}g</p>
                       </div>
                       <div className="bg-green-50 p-2 rounded">
                         <p className="text-sm text-gray-500">Fat</p>
-                        <p className="font-semibold">{food.fat}g</p>
+                        <p className="font-semibold">{food.nutrition.fat_content}g</p>
                       </div>
                     </div>
 
@@ -271,23 +292,23 @@ export default function FoodRecommendations() {
                       <div className="space-y-1 text-sm">
                         <div className="flex justify-between">
                           <span>Saturated Fat:</span>
-                          <span>{food.saturated_fat}g</span>
+                          <span>{food.nutrition.saturated_fat_content}g</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Cholesterol:</span>
-                          <span>{food.cholesterol}mg</span>
+                          <span>{food.nutrition.cholesterol_content}mg</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Sodium:</span>
-                          <span>{food.sodium}mg</span>
+                          <span>{food.nutrition.sodium_content}mg</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Fiber:</span>
-                          <span>{food.fiber}g</span>
+                          <span>{food.nutrition.fiber_content}g</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Sugar:</span>
-                          <span>{food.sugar}g</span>
+                          <span>{food.nutrition.sugar_content}g</span>
                         </div>
                       </div>
                     </div>

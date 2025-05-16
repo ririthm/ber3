@@ -2,21 +2,21 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import pairwise_distances_argmin_min
 from sqlalchemy import create_engine
-from app.core.model_loader import load_model_and_scaler
+from ..core.model_loader import load_model_and_scaler
 
 # Koneksi ke database PostgreSQL
-DATABASE_URL = "postgresql://postgres:riri1605@localhost:5432/NutriMatch"
+DATABASE_URL = "postgresql://postgres:wdd123@localhost:5432/NutriMatch"
 engine = create_engine(DATABASE_URL)
 
 def predict_and_get_recipes(category: str, user_features: dict):
     # 1. Load scaler (model tidak digunakan)
-    _, scaler = load_model_and_scaler(category)
+    model = load_model_and_scaler(category)
 
     # 2. Buat DataFrame dari input user
     features_df = pd.DataFrame([user_features])
 
     # 3. Gunakan data asli dari user (TANPA SCALING)
-    scaled_user = features_df.values
+    user_data = features_df.values
 
     # 4. Kolom fitur nutrisi yang digunakan
     feature_cols = [
@@ -38,20 +38,20 @@ def predict_and_get_recipes(category: str, user_features: dict):
 
     # 7. Scaling hanya untuk data dari database
     db_features = recipes_df[feature_cols].values
-    db_scaled = scaler.transform(db_features)
+    # db_scaled = scaler.transform(db_features)
 
     # 8. Cari resep terdekat dari input user
-    closest_idx, _ = pairwise_distances_argmin_min(scaled_user, db_scaled)
+    closest_idx, _ = pairwise_distances_argmin_min(user_data, db_features)
     user_cluster = recipes_df.iloc[closest_idx[0]]['cluster']
 
     # 9. Filter semua resep dalam cluster yang sama
     cluster_recipes = recipes_df[recipes_df['cluster'] == user_cluster]
 
     # 10. Ambil 5 resep teratas
-    top_5_recipes = cluster_recipes.head(5)
+    top_recipes = cluster_recipes.head(15)
 
     # 11. Ambil bahan resep dari tabel ingredients
-    recipe_ids = tuple(top_5_recipes['recipe_id'].tolist())
+    recipe_ids = tuple(top_recipes['recipe_id'].tolist())
     ingredient_query = f"""
         SELECT recipe_id, ingredient_quantity, ingredient_parts
         FROM ingredients
@@ -61,7 +61,7 @@ def predict_and_get_recipes(category: str, user_features: dict):
 
     # 12. Gabungkan data resep dan bahan ke hasil akhir
     results = []
-    for _, row in top_5_recipes.iterrows():
+    for _, row in top_recipes.iterrows():
         recipe_id = row['recipe_id']
         ingredients = ingredients_df[ingredients_df['recipe_id'] == recipe_id][[
             'ingredient_quantity', 'ingredient_parts'
