@@ -6,37 +6,37 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import Image from "next/image";  
 
 // Types for our food data
 interface Food {
   id: number
   name: string
   category: string
-  calories: number
-  fat: number
-  saturated_fat: number
-  cholesterol: number
-  sodium: number
-  carbohydrates: number
-  fiber: number
-  sugar: number
-  protein: number
-  image: string
+  nutrition: {
+    calories: number
+    fat_content: number
+    saturated_fat_content: number
+    cholesterol_content: number
+    sodium_content: number
+    carbohydrate_content: number
+    fiber_content: number
+    sugar_content: number
+    protein_content: number
+  }
 }
 
 export default function FoodRecommendations() {
   // State for filters
   const [category, setCategory] = useState<string>("")
-  const [calories, setCalories] = useState<number[]>([500])
-  const [fat, setFat] = useState<number[]>([50])
-  const [saturatedFat, setSaturatedFat] = useState<number[]>([50])
-  const [cholesterol, setCholesterol] = useState<number[]>([150])
-  const [sodium, setSodium] = useState<number[]>([1000])
-  const [carbohydrates, setCarbohydrates] = useState<number[]>([100])
-  const [fiber, setFiber] = useState<number[]>([25])
-  const [sugar, setSugar] = useState<number[]>([50])
-  const [protein, setProtein] = useState<number[]>([50])
+  const [calories, setCalories] = useState<number[]>([0])  // Set default to 0
+  const [fat, setFat] = useState<number[]>([0])  // Set default to 0
+  const [saturatedFat, setSaturatedFat] = useState<number[]>([0])  // Set default to 0
+  const [cholesterol, setCholesterol] = useState<number[]>([0])  // Set default to 0
+  const [sodium, setSodium] = useState<number[]>([0])  // Set default to 0
+  const [carbohydrates, setCarbohydrates] = useState<number[]>([0])  // Set default to 0
+  const [fiber, setFiber] = useState<number[]>([0])  // Set default to 0
+  const [sugar, setSugar] = useState<number[]>([0])  // Set default to 0
+  const [protein, setProtein] = useState<number[]>([0])  // Set default to 0
 
   // State for food data
   const [foods, setFoods] = useState<Food[]>([])
@@ -69,7 +69,7 @@ export default function FoodRecommendations() {
       })
 
       if (!response.ok) {
-        throw new Error("Failed to fetch food recommendations")
+        throw new Error("Ups! Rekomendasi makanan belum bisa ditampilkan saat ini. Silakan coba lagi sebentar lagi.")
       }
 
       const data = await response.json()
@@ -108,9 +108,9 @@ export default function FoodRecommendations() {
     <main className="min-h-screen pt-20 pb-12 px-4">
       <div className="container mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-green-800 mb-4">Food Recommendations</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-green-800 mb-4">Food Choices</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Select your preferences to get personalized nutritional recommendations that match your needs.
+            Atur pilihan nutrisi, dapatkan rekomendasi makanan yang mendukung gaya hidupmu!
           </p>
         </div>
 
@@ -120,25 +120,25 @@ export default function FoodRecommendations() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* Food Category */}
             <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-1">Food Category</Label>
+              <Label className="block text-sm font-medium text-gray-700 mb-1">Kategori Makanan</Label>
               <Select onValueChange={setCategory} value={category}>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a category" />
+                  <SelectValue placeholder="Pilih Kategori Makanan" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Beverage">Beverage</SelectItem>
-                  <SelectItem value="Bread">Bread</SelectItem>
-                  <SelectItem value="Dairy">Dairy</SelectItem>
+                  <SelectItem value="Beverage">Minuman</SelectItem>
+                  <SelectItem value="Bread">Roti</SelectItem>
+                  <SelectItem value="Dairy">Hidangan Susu</SelectItem>
                   <SelectItem value="Dessert">Dessert</SelectItem>
-                  <SelectItem value="Fruits & Vegetables">Fruits & Vegetables</SelectItem>
-                  <SelectItem value="Grains">Grains</SelectItem>
-                  <SelectItem value="Lunch">Lunch</SelectItem>
-                  <SelectItem value="Meat">Meat</SelectItem>
+                  <SelectItem value="Fruits & Vegetables">Buah dan Sayuran</SelectItem>
+                  <SelectItem value="Grains">Serealia</SelectItem>
+                  <SelectItem value="Lunch">Makan Siang</SelectItem>
+                  <SelectItem value="Meat">Daging</SelectItem>
                   <SelectItem value="Pasta">Pasta</SelectItem>
-                  <SelectItem value="Poultry">Poultry</SelectItem>
-                  <SelectItem value="Sauces & Dressings">Sauces & Dressings</SelectItem>
+                  <SelectItem value="Poultry">Hidangan Unggas</SelectItem>
+                  <SelectItem value="Sauces and Dressings">Saus dan Dressing</SelectItem>
                   <SelectItem value="Seafood">Seafood</SelectItem>
-                  <SelectItem value="Spreads">Spreads</SelectItem>
+                  <SelectItem value="Spreads">Selai dan Olesan</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -151,7 +151,7 @@ export default function FoodRecommendations() {
                 <Label className="text-sm font-medium text-gray-700">Calories (0-1000g)</Label>
                 <span className="text-sm text-gray-500">{calories[0]}g</span>
               </div>
-              <Slider defaultValue={[500]} max={1000} step={10} value={calories} onValueChange={setCalories} />
+              <Slider defaultValue={[0]} max={1000} step={10} value={calories} onValueChange={setCalories} />
             </div>
 
             {/* Fat Slider */}
@@ -160,7 +160,7 @@ export default function FoodRecommendations() {
                 <Label className="text-sm font-medium text-gray-700">Fat (0-100g)</Label>
                 <span className="text-sm text-gray-500">{fat[0]}g</span>
               </div>
-              <Slider defaultValue={[50]} max={100} step={1} value={fat} onValueChange={setFat} />
+              <Slider defaultValue={[0]} max={100} step={1} value={fat} onValueChange={setFat} />
             </div>
 
             {/* Saturated Fat Slider */}
@@ -169,7 +169,7 @@ export default function FoodRecommendations() {
                 <Label className="text-sm font-medium text-gray-700">Saturated Fat (0-100g)</Label>
                 <span className="text-sm text-gray-500">{saturatedFat[0]}g</span>
               </div>
-              <Slider defaultValue={[50]} max={100} step={1} value={saturatedFat} onValueChange={setSaturatedFat} />
+              <Slider defaultValue={[0]} max={100} step={1} value={saturatedFat} onValueChange={setSaturatedFat} />
             </div>
 
             {/* Cholesterol Slider */}
@@ -178,7 +178,7 @@ export default function FoodRecommendations() {
                 <Label className="text-sm font-medium text-gray-700">Cholesterol (0-300mg)</Label>
                 <span className="text-sm text-gray-500">{cholesterol[0]}mg</span>
               </div>
-              <Slider defaultValue={[150]} max={300} step={5} value={cholesterol} onValueChange={setCholesterol} />
+              <Slider defaultValue={[0]} max={300} step={5} value={cholesterol} onValueChange={setCholesterol} />
             </div>
 
             {/* Sodium Slider */}
@@ -187,7 +187,7 @@ export default function FoodRecommendations() {
                 <Label className="text-sm font-medium text-gray-700">Sodium (0-2000mg)</Label>
                 <span className="text-sm text-gray-500">{sodium[0]}mg</span>
               </div>
-              <Slider defaultValue={[1000]} max={2000} step={50} value={sodium} onValueChange={setSodium} />
+              <Slider defaultValue={[0]} max={2000} step={50} value={sodium} onValueChange={setSodium} />
             </div>
 
             {/* Carbohydrates Slider */}
@@ -196,7 +196,7 @@ export default function FoodRecommendations() {
                 <Label className="text-sm font-medium text-gray-700">Carbohydrates (0-200g)</Label>
                 <span className="text-sm text-gray-500">{carbohydrates[0]}g</span>
               </div>
-              <Slider defaultValue={[100]} max={200} step={5} value={carbohydrates} onValueChange={setCarbohydrates} />
+              <Slider defaultValue={[0]} max={200} step={5} value={carbohydrates} onValueChange={setCarbohydrates} />
             </div>
 
             {/* Fiber Slider */}
@@ -205,7 +205,7 @@ export default function FoodRecommendations() {
                 <Label className="text-sm font-medium text-gray-700">Fiber (0-50g)</Label>
                 <span className="text-sm text-gray-500">{fiber[0]}g</span>
               </div>
-              <Slider defaultValue={[25]} max={50} step={1} value={fiber} onValueChange={setFiber} />
+              <Slider defaultValue={[0]} max={50} step={1} value={fiber} onValueChange={setFiber} />
             </div>
 
             {/* Sugar Slider */}
@@ -214,7 +214,7 @@ export default function FoodRecommendations() {
                 <Label className="text-sm font-medium text-gray-700">Sugar (0-100g)</Label>
                 <span className="text-sm text-gray-500">{sugar[0]}g</span>
               </div>
-              <Slider defaultValue={[50]} max={100} step={1} value={sugar} onValueChange={setSugar} />
+              <Slider defaultValue={[0]} max={100} step={1} value={sugar} onValueChange={setSugar} />
             </div>
 
             {/* Protein Slider */}
@@ -223,7 +223,7 @@ export default function FoodRecommendations() {
                 <Label className="text-sm font-medium text-gray-700">Protein (0-100g)</Label>
                 <span className="text-sm text-gray-500">{protein[0]}g</span>
               </div>
-              <Slider defaultValue={[50]} max={100} step={1} value={protein} onValueChange={setProtein} />
+              <Slider defaultValue={[0]} max={100} step={1} value={protein} onValueChange={setProtein} />
             </div>
           </div>
 
@@ -254,15 +254,6 @@ export default function FoodRecommendations() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {foods.map((food) => (
                 <Card key={food.id} className="overflow-hidden">
-                  <div className="h-48 w-full overflow-hidden">
-                    <Image
-                      src={food.image || "/placeholder.svg?height=300&width=400"}
-                      alt={food.name}
-                      width={400}
-                      height={300}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
                   <CardHeader>
                     <CardTitle>{food.name}</CardTitle>
                     <CardDescription>{food.category}</CardDescription>
@@ -325,7 +316,7 @@ export default function FoodRecommendations() {
         {!loading && !error && foods.length === 0 && (
           <div className="text-center py-12">
             <p className="text-gray-600">
-              Use the filters above to find food recommendations that match your nutritional needs.
+              Atur pilihan nutrisi, dapatkan rekomendasi makanan yang mendukung gaya hidupmu!
             </p>
           </div>
         )}

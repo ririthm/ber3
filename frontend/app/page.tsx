@@ -10,14 +10,14 @@ export default function Home() {
       <section className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-50 to-white px-4 py-20">
         <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
           <div className="flex flex-col space-y-6 max-w-xl">
-            <Image src="/logo-white.png" alt="NutriMatch Logo White" width={180} height={60} className="mb-4" />
-            <h1 className="text-4xl md:text-6xl font-bold text-green-800">Find Your Perfect Nutritional Balance</h1>
+            <Image src="/logo-white.png" alt="NutriMatch Logo White" width={330} height={110} className="mb-4" />
+            <h1 className="text-4xl md:text-6xl font-bold text-green-800">Eat Better, Live Healthier</h1>
             <p className="text-xl text-gray-600">
-              Discover foods that match your nutritional needs and preferences for a healthier lifestyle.
+              Temukan makanan yang cocok dengan gaya hidup dan kebutuhan nutrisimu.
             </p>
             <Link href="/recommendations" className="w-fit">
               <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-lg rounded-full flex items-center gap-2 group">
-                Match Your Meal
+                Explore Your Food Matches
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
@@ -31,7 +31,7 @@ export default function Home() {
       {/* Information Section */}
       <section className="py-20 bg-white px-4">
         <div className="container mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-green-800 mb-12">Nutrition Knowledge Hub</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-green-800 mb-12">Portal Informasi Nutrisi</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Article Card 1 */}
             <div className="bg-green-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
@@ -44,11 +44,11 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-xl font-bold text-green-800 mb-2">The Importance of a Balanced Diet</h3>
+              <h3 className="text-xl font-bold text-green-800 mb-2">Pentingnya Diet Seimbang dan Manfaatnya bagi Kesehatan</h3>
               <p className="text-gray-600 mb-4">
-                Learn why balancing your nutrients is crucial for overall health and wellbeing.
+                Apa itu diet seimbang dan manfaatnya? Apa saja yang boleh dimakan dan tidak? Berikut penjelasannya.
               </p>
-              <Link href="#" className="text-green-600 font-medium hover:underline inline-flex items-center">
+              <Link href="https://www.tempo.co/gaya-hidup/pentingnya-diet-seimbang-dan-manfaatnya-bagi-kesehatan-624980" className="text-green-600 font-medium hover:underline inline-flex items-center">
                 Read more <ArrowRight className="ml-1 w-4 h-4" />
               </Link>
             </div>
@@ -64,11 +64,11 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-xl font-bold text-green-800 mb-2">Superfoods You Should Include Daily</h3>
+              <h3 className="text-xl font-bold text-green-800 mb-2">Perbaiki Kesehatan Tubuh Dengan Menu Ajaib dan Padat Nutrisi dari Superfood. Apakah itu?</h3>
               <p className="text-gray-600 mb-4">
-                Discover nutrient-dense foods that can boost your health and energy levels.
+                Kenali ragam makanan pemilik nutrisi luar biasa untuk tubuh dan mental yang jauh lebih bugar
               </p>
-              <Link href="#" className="text-green-600 font-medium hover:underline inline-flex items-center">
+              <Link href="https://harpersbazaar.co.id/articles/read/11/2024/20945/superfood-rahasia-nutrisi-terbaik-untuk-tubuh-anda" className="text-green-600 font-medium hover:underline inline-flex items-center">
                 Read more <ArrowRight className="ml-1 w-4 h-4" />
               </Link>
             </div>
@@ -84,11 +84,11 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-xl font-bold text-green-800 mb-2">Effective Meal Planning Strategies</h3>
+              <h3 className="text-xl font-bold text-green-800 mb-2">Jumlah Asupan Kalori Harian yang Dibutuhkan Pria dan Wanita dalam Sehari</h3>
               <p className="text-gray-600 mb-4">
-                Tips and tricks for planning nutritious meals that save time and money.
+                Kebutuhan kalori harian berdasarkan usia, jenis kelamin, dan aktivitas untuk mendukung kesehatan dan berat badan ideal.
               </p>
-              <Link href="#" className="text-green-600 font-medium hover:underline inline-flex items-center">
+              <Link href="https://www.merdeka.com/sehat/jumlah-asupan-kalori-harian-yang-dibutuhkan-pria-dan-wanita-dalam-sehari-315300-mvk.html" className="text-green-600 font-medium hover:underline inline-flex items-center">
                 Read more <ArrowRight className="ml-1 w-4 h-4" />
               </Link>
             </div>
@@ -99,14 +99,14 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-20 bg-green-50 px-4">
         <div className="container mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-6">Ready to Transform Your Diet?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-6">Ready to Change Your Life for the Better?</h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10">
-            Start your journey to better nutrition today with personalized food recommendations.
+            Langkah kecil hari ini, hidup sehat selamanya. Dapatkan rekomendasi makanan yang sesuai nutrisi pilihanmu!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/recommendations">
               <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-lg rounded-full">
-                Get Food Recommendations
+                Explore Your Food Matches
               </Button>
             </Link>
             <Link href="/faq">
@@ -114,7 +114,7 @@ export default function Home() {
                 variant="outline"
                 className="border-green-600 text-green-600 hover:bg-green-50 px-8 py-6 text-lg rounded-full"
               >
-                View FAQ
+                Check Out the FAQ
               </Button>
             </Link>
           </div>
@@ -124,15 +124,26 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-green-800 text-white py-6 px-4">
         <div className="container mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center mb-4 md:mb-0">
-              <Image src="/logo.png" alt="NutriMatch Logo" width={120} height={40} className="mr-2" />
-              <span className="text-sm">Match Your Meal</span>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+
+            {/* Logo and Name */}
+            <div className="flex items-center mb-2 md:mb-0">
+              <Image src="/logo.png" alt="NutriMatch Logo" width={80} height={35} className="mr-2" />
+              <span className="text-sm font-bold">Match Your Meal</span>
             </div>
-            <div className="text-sm">© {new Date().getFullYear()} NutriMatch. All rights reserved.</div>
+            {/* Department and University */}
+            <div className="text-sm mb-0 md:mb-0">
+              <p>Program Studi Sains Data Terapan</p>
+              <p>Politeknik Elektronika Negeri Surabaya</p>
+            </div>
+          </div>
+          <div className="flex flex-col items-center mt-4">
+            <p className="text-xs text-center mb-2">We gratefully acknowledge the support of our partners, mentors, and contributors. This website is developed and maintained by the NutriMatch Team.</p>
+            <p className="text-xs text-center">© {new Date().getFullYear()} NutriMatch. All rights reserved.</p>
           </div>
         </div>
       </footer>
+
     </main>
   )
 }

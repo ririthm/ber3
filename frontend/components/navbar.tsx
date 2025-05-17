@@ -13,7 +13,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center">
-            <Image src="/logo-white.png" alt="NutriMatch Logo White" width={120} height={40} priority />
+            <Image src="/logo-white-2.png" alt="NutriMatch Logo White 2" width={180} height={60} priority />
           </Link>
 
           {/* Desktop Navigation */}
@@ -22,7 +22,7 @@ export default function Navbar() {
               Home
             </Link>
             <Link href="/recommendations" className="text-gray-700 hover:text-green-600 font-medium">
-              Food Recommendations
+              Food Choices
             </Link>
             <Link href="/faq" className="text-gray-700 hover:text-green-600 font-medium">
               FAQ

@@ -61,7 +61,7 @@ export default function FAQ() {
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-bold text-green-800 mb-4">Frequently Asked Questions</h1>
           <p className="text-xl text-gray-600">
-            Find answers to common questions about nutrition and our food recommendations.
+            Jelajahi jawaban atas pertanyaan seputar gizi dan pelajari lebih lanjut tentang rekomendasi makanan kami.
           </p>
         </div>
 
