@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from ..core.model_loader import load_model_and_scaler
 
 # Koneksi ke database PostgreSQL
-DATABASE_URL = "postgresql://postgres:wdd123@localhost:5432/NutriMatch"
+DATABASE_URL = "postgresql://postgres:riri1605@localhost:5432/NutriMatch"
 engine = create_engine(DATABASE_URL)
 
 def predict_and_get_recipes(category: str, user_features: dict):
@@ -36,9 +36,8 @@ def predict_and_get_recipes(category: str, user_features: dict):
     if recipes_df.empty:
         return {"error": f"No recipes found for category '{category}'"}
 
-    # 7. Scaling hanya untuk data dari database
+    # 7. Scaling hanya untuk data dari database (jika diperlukan)
     db_features = recipes_df[feature_cols].values
-    # db_scaled = scaler.transform(db_features)
 
     # 8. Cari resep terdekat dari input user
     closest_idx, _ = pairwise_distances_argmin_min(user_data, db_features)
@@ -47,17 +46,21 @@ def predict_and_get_recipes(category: str, user_features: dict):
     # 9. Filter semua resep dalam cluster yang sama
     cluster_recipes = recipes_df[recipes_df['cluster'] == user_cluster]
 
-    # 10. Ambil 5 resep teratas
+    # 10. Ambil maksimal 15 resep
     top_recipes = cluster_recipes.head(15)
 
     # 11. Ambil bahan resep dari tabel ingredients
-    recipe_ids = tuple(top_recipes['recipe_id'].tolist())
-    ingredient_query = f"""
+    recipe_ids = top_recipes['recipe_id'].tolist()
+
+    if not recipe_ids:
+        return []
+
+    ingredient_query = """
         SELECT recipe_id, ingredient_quantity, ingredient_parts
         FROM ingredients
-        WHERE recipe_id IN {recipe_ids if len(recipe_ids) > 1 else f"({recipe_ids[0]},)"}
+        WHERE recipe_id = ANY(%s)
     """
-    ingredients_df = pd.read_sql_query(ingredient_query, engine)
+    ingredients_df = pd.read_sql_query(ingredient_query, engine, params=(recipe_ids,))
 
     # 12. Gabungkan data resep dan bahan ke hasil akhir
     results = []
