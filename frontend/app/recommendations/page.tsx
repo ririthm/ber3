@@ -119,13 +119,15 @@ export default function FoodRecommendations() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* Food Category */}
-            <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-1">Kategori Makanan</Label>
-              <Select onValueChange={setCategory} value={category}>
-                <SelectTrigger className="w-full">
+            <div className="flex flex-col">
+              <Label className="block text-sm font-medium text-gray-700 mb-1">
+                Kategori Makanan
+              </Label>
+              <Select onValueChange={setCategory} value={category} className="w-full">
+                <SelectTrigger className="bg-white">
                   <SelectValue placeholder="Pilih Kategori Makanan" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white">
                   <SelectItem value="Beverage">Minuman</SelectItem>
                   <SelectItem value="Bread">Roti</SelectItem>
                   <SelectItem value="Dairy">Hidangan Susu</SelectItem>
@@ -143,6 +145,7 @@ export default function FoodRecommendations() {
               </Select>
             </div>
           </div>
+
 
           <div className="space-y-6">
             {/* Calories Slider */}
