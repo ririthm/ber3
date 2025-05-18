@@ -119,12 +119,12 @@ export default function FoodRecommendations() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* Food Category */}
-            <div className="flex flex-col">
+            <div>
               <Label className="block text-sm font-medium text-gray-700 mb-1">
                 Kategori Makanan
               </Label>
-              <Select onValueChange={setCategory} value={category} className="w-full">
-                <SelectTrigger className="bg-white">
+              <Select onValueChange={setCategory} value={category}>
+                <SelectTrigger className="w-full bg-white">
                   <SelectValue placeholder="Pilih Kategori Makanan" />
                 </SelectTrigger>
                 <SelectContent className="bg-white">
@@ -324,6 +324,6 @@ export default function FoodRecommendations() {
           </div>
         )}
       </div>
-    </main>
-  )
+    </main>
+  )
 }
