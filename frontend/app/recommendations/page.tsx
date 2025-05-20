@@ -12,6 +12,11 @@ interface Food {
   id: number
   name: string
   category: string
+  description?: string
+  ingredients?: {
+    ingredient_parts?: string
+    ingredient_quantity?: string
+  }[]
   nutrition: {
     calories: number
     fat_content: number
@@ -26,24 +31,22 @@ interface Food {
 }
 
 export default function FoodRecommendations() {
-  // State for filters
   const [category, setCategory] = useState<string>("")
-  const [calories, setCalories] = useState<number[]>([0])  // Set default to 0
-  const [fat, setFat] = useState<number[]>([0])  // Set default to 0
-  const [saturatedFat, setSaturatedFat] = useState<number[]>([0])  // Set default to 0
-  const [cholesterol, setCholesterol] = useState<number[]>([0])  // Set default to 0
-  const [sodium, setSodium] = useState<number[]>([0])  // Set default to 0
-  const [carbohydrates, setCarbohydrates] = useState<number[]>([0])  // Set default to 0
-  const [fiber, setFiber] = useState<number[]>([0])  // Set default to 0
-  const [sugar, setSugar] = useState<number[]>([0])  // Set default to 0
-  const [protein, setProtein] = useState<number[]>([0])  // Set default to 0
+  const [calories, setCalories] = useState<number[]>([0])
+  const [fat, setFat] = useState<number[]>([0])
+  const [saturatedFat, setSaturatedFat] = useState<number[]>([0])
+  const [cholesterol, setCholesterol] = useState<number[]>([0])
+  const [sodium, setSodium] = useState<number[]>([0])
+  const [carbohydrates, setCarbohydrates] = useState<number[]>([0])
+  const [fiber, setFiber] = useState<number[]>([0])
+  const [sugar, setSugar] = useState<number[]>([0])
+  const [protein, setProtein] = useState<number[]>([0])
 
-  // State for food data
   const [foods, setFoods] = useState<Food[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
+  const [expandedCards, setExpandedCards] = useState<{ [key: number]: boolean }>({})
 
-  // Function to fetch food recommendations from FastAPI backend
   const fetchFoodRecommendations = async () => {
     setLoading(true)
     setError(null)
@@ -74,7 +77,6 @@ export default function FoodRecommendations() {
 
       const data = await response.json()
 
-      // Konversi string ke number untuk nutrisi jika data ada
       const updatedFoods = data.map((food: any) => ({
         ...food,
         nutrition: {
@@ -90,7 +92,7 @@ export default function FoodRecommendations() {
         },
       }));
 
-      setFoods(updatedFoods)  // Update state with the fetched data
+      setFoods(updatedFoods)
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred")
       console.error(err)
@@ -99,9 +101,27 @@ export default function FoodRecommendations() {
     }
   }
 
-  // Handle search button click
   const handleSearch = () => {
-    fetchFoodRecommendations()  // Call the API when search is clicked
+    fetchFoodRecommendations()
+  }
+
+  function displayValue(value: number) {
+    if (!value || isNaN(value)) return "-"
+    return value.toString()
+  }
+
+  function parseListString(str?: string): string[] {
+    if (!str || str.toLowerCase() === "na") return []
+    return str
+      .replace(/^c\(|\)$/g, "")
+      .replace(/["']/g, "")
+      .split(",")
+      .map(s => s.trim())
+      .filter(Boolean)
+  }
+
+  function handleToggleCard(id: number) {
+    setExpandedCards(prev => ({ ...prev, [id]: !prev[id] }))
   }
 
   return (
@@ -118,7 +138,6 @@ export default function FoodRecommendations() {
           <h2 className="text-xl font-semibold text-green-800 mb-6">Find Your Perfect Match</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {/* Food Category */}
             <div>
               <Label className="block text-sm font-medium text-gray-700 mb-1">
                 Kategori Makanan
@@ -145,7 +164,6 @@ export default function FoodRecommendations() {
               </Select>
             </div>
           </div>
-
 
           <div className="space-y-6">
             {/* Calories Slider */}
@@ -230,100 +248,69 @@ export default function FoodRecommendations() {
             </div>
           </div>
 
-          <div className="mt-8">
-            <Button onClick={handleSearch} className="w-full bg-green-600 hover:bg-green-700 text-white py-2">
-              Find Food Recommendations
+          <div className="mt-6 flex justify-center">
+            <Button onClick={handleSearch} className="bg-green-700 hover:bg-green-800 text-white">
+              {loading ? "Mencari..." : "Cari Makanan"}
             </Button>
           </div>
-        </div>
 
-        {loading && (
-          <div className="text-center py-12">
-            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-green-600 border-r-transparent"></div>
-            <p className="mt-4 text-gray-600">Searching for your perfect food matches...</p>
-          </div>
-        )}
+          {error && (
+            <p className="text-red-600 mt-4 text-center font-semibold">{error}</p>
+          )}
 
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
-            <p>{error}</p>
-            <p className="text-sm mt-1">Please try again or adjust your search criteria.</p>
-          </div>
-        )}
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {foods.map((food) => {
+              const ingredients = food.ingredients?.[0]
+              const parts = parseListString(ingredients?.ingredient_parts)
+              const quantities = parseListString(ingredients?.ingredient_quantity)
 
-        {!loading && foods.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold text-green-800 mb-6 text-center">Recommended Food Options</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {foods.map((food) => (
-                <Card key={food.id} className="overflow-hidden">
+              return (
+                <Card key={food.id} className="border border-green-600 shadow-md">
                   <CardHeader>
-                    <CardTitle>{food.name}</CardTitle>
+                    <CardTitle className="text-lg font-semibold text-green-800">{food.name}</CardTitle>
                     <CardDescription>{food.category}</CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="bg-green-50 p-2 rounded">
-                        <p className="text-sm text-gray-500">Calories</p>
-                        <p className="font-semibold">{food.nutrition.calories}g</p>
-                      </div>
-                      <div className="bg-green-50 p-2 rounded">
-                        <p className="text-sm text-gray-500">Protein</p>
-                        <p className="font-semibold">{food.nutrition.protein_content}g</p>
-                      </div>
-                      <div className="bg-green-50 p-2 rounded">
-                        <p className="text-sm text-gray-500">Carbs</p>
-                        <p className="font-semibold">{food.nutrition.carbohydrate_content}g</p>
-                      </div>
-                      <div className="bg-green-50 p-2 rounded">
-                        <p className="text-sm text-gray-500">Fat</p>
-                        <p className="font-semibold">{food.nutrition.fat_content}g</p>
-                      </div>
-                    </div>
-
-                    <div className="mt-4">
-                      <h4 className="text-sm font-medium text-gray-700 mb-2">Detailed Nutrition</h4>
-                      <div className="space-y-1 text-sm">
-                        <div className="flex justify-between">
-                          <span>Saturated Fat:</span>
-                          <span>{food.nutrition.saturated_fat_content}g</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Cholesterol:</span>
-                          <span>{food.nutrition.cholesterol_content}mg</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Sodium:</span>
-                          <span>{food.nutrition.sodium_content}mg</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Fiber:</span>
-                          <span>{food.nutrition.fiber_content}g</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Sugar:</span>
-                          <span>{food.nutrition.sugar_content}g</span>
-                        </div>
-                      </div>
-                    </div>
+                  <CardContent className="text-sm text-gray-700 space-y-1">
+                    <p>Calories: {displayValue(food.nutrition.calories)}</p>
+                    <p>Fat: {displayValue(food.nutrition.fat_content)}g</p>
+                    <p>Saturated Fat: {displayValue(food.nutrition.saturated_fat_content)}g</p>
+                    <p>Cholesterol: {displayValue(food.nutrition.cholesterol_content)}mg</p>
+                    <p>Sodium: {displayValue(food.nutrition.sodium_content)}mg</p>
+                    <p>Carbohydrates: {displayValue(food.nutrition.carbohydrate_content)}g</p>
+                    <p>Fiber: {displayValue(food.nutrition.fiber_content)}g</p>
+                    <p>Sugar: {displayValue(food.nutrition.sugar_content)}g</p>
+                    <p>Protein: {displayValue(food.nutrition.protein_content)}g</p>
                   </CardContent>
-                  <CardFooter>
-                    <Button className="w-full bg-green-600 hover:bg-green-700">Add to Meal Plan</Button>
+                  <CardFooter className="flex flex-col gap-2">
+                    <Button onClick={() => handleToggleCard(food.id)} className="bg-green-700 hover:bg-green-800 text-white w-full">
+                      {expandedCards[food.id] ? "Hide Details" : "Show Details"}
+                    </Button>
+
+                    {expandedCards[food.id] && (
+                      <div className="mt-2 w-full text-sm text-gray-800">
+                        <p className="font-semibold text-green-800 mb-1">Description:</p>
+                        <p className="mb-2">{food.description?.trim() || "-"}</p>
+                        <p className="font-semibold text-green-800">Ingredients:</p>
+                        <ul className="list-disc list-inside">
+                          {parts.length > 0 || quantities.length > 0 ? (
+                            parts.map((part, i) => (
+                              <li key={i}>
+                                {part || "-"}: {quantities[i] || "-"}
+                              </li>
+                            ))
+                          ) : (
+                            <li>-</li>
+                          )}
+                        </ul>
+                      </div>
+                    )}
                   </CardFooter>
                 </Card>
-              ))}
-            </div>
+              )
+            })}
           </div>
-        )}
-
-        {!loading && !error && foods.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-600">
-              Atur pilihan nutrisi, dapatkan rekomendasi makanan yang mendukung gaya hidupmu!
-            </p>
-          </div>
-        )}
+        </div>
       </div>
-    </main>
-  )
+    </main>
+  )
 }
