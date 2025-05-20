@@ -16,14 +16,20 @@ export default function Home() {
               Temukan makanan yang cocok dengan gaya hidup dan kebutuhan nutrisimu.
             </p>
             <Link href="/recommendations" className="w-fit">
-              <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-lg rounded-full flex items-center gap-2 group">
+              <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-lg rounded-full flex items-center gap-2 group transition-transform duration-300 hover:scale-105">
                 Explore Your Food Matches
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
           </div>
           <div className="relative w-full max-w-md">
-            <Image src="/food-hero.png" alt="Healthy Food" width={500} height={500} className="rounded-2xl shadow-xl" />
+            <Image 
+              src="/food-hero.png" 
+              alt="Healthy Food" 
+              width={1000} 
+              height={1000} 
+              className="rounded-2xl shadow-xl transition-transform duration-300 ease-in-out hover:scale-110 hover:opacity-90 hover:shadow-2xl hover:translate-y-[-10px] hover:rotate-1" 
+            />
           </div>
         </div>
       </section>
@@ -31,17 +37,17 @@ export default function Home() {
       {/* Information Section */}
       <section className="py-20 bg-white px-4">
         <div className="container mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-green-800 mb-12">Portal Informasi Nutrisi</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-green-800 mb-12 transition-transform duration-300 hover:scale-105">Portal Informasi Nutrisi</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Article Card 1 */}
-            <div className="bg-green-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+            <div className="bg-green-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow transform hover:scale-105 hover:translate-y-[-5px] duration-300 ease-in-out">
               <div className="h-48 mb-4 overflow-hidden rounded-lg">
                 <Image
                   src="/article-1.png"
                   alt="Balanced Diet"
                   width={400}
                   height={250}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-110"
                 />
               </div>
               <h3 className="text-xl font-bold text-green-800 mb-2">Pentingnya Diet Seimbang dan Manfaatnya bagi Kesehatan</h3>
@@ -54,14 +60,14 @@ export default function Home() {
             </div>
 
             {/* Article Card 2 */}
-            <div className="bg-green-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+            <div className="bg-green-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow transform hover:scale-105 hover:translate-y-[-5px] duration-300 ease-in-out">
               <div className="h-48 mb-4 overflow-hidden rounded-lg">
                 <Image
                   src="/article-2.png"
                   alt="Superfoods"
                   width={400}
                   height={250}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-110"
                 />
               </div>
               <h3 className="text-xl font-bold text-green-800 mb-2">Perbaiki Kesehatan Tubuh Dengan Menu Ajaib dan Padat Nutrisi dari Superfood. Apakah itu?</h3>
@@ -74,14 +80,14 @@ export default function Home() {
             </div>
 
             {/* Article Card 3 */}
-            <div className="bg-green-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+            <div className="bg-green-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow transform hover:scale-105 hover:translate-y-[-5px] duration-300 ease-in-out">
               <div className="h-48 mb-4 overflow-hidden rounded-lg">
                 <Image
                   src="/article-3.png"
                   alt="Meal Planning"
                   width={400}
                   height={250}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-110"
                 />
               </div>
               <h3 className="text-xl font-bold text-green-800 mb-2">Jumlah Asupan Kalori Harian yang Dibutuhkan Pria dan Wanita dalam Sehari</h3>
@@ -99,20 +105,21 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-20 bg-green-50 px-4">
         <div className="container mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-6">Ready to Change Your Life for the Better?</h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-6 transition-transform duration-300 hover:scale-105">
+            Ready to Change Your Life for the Better?
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10 transition-opacity duration-300 hover:opacity-80">
             Langkah kecil hari ini, hidup sehat selamanya. Dapatkan rekomendasi makanan yang sesuai nutrisi pilihanmu!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/recommendations">
-              <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-lg rounded-full">
+              <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-lg rounded-full transition-transform duration-300 hover:scale-105">
                 Explore Your Food Matches
               </Button>
             </Link>
             <Link href="/faq">
               <Button
-                variant="outline"
-                className="border-green-600 text-green-600 hover:bg-green-50 px-8 py-6 text-lg rounded-full"
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-lg rounded-full flex items-center gap-2 group transition-transform duration-300 hover:scale-105"
               >
                 Check Out the FAQ
               </Button>
@@ -125,11 +132,10 @@ export default function Home() {
       <footer className="bg-green-800 text-white py-6 px-4">
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-
             {/* Logo and Name */}
             <div className="flex items-center mb-2 md:mb-0">
-              <Image src="/logo.png" alt="NutriMatch Logo" width={80} height={35} className="mr-2" />
-              <span className="text-sm font-bold">Match Your Meal</span>
+              <Image src="/logo.png" alt="NutriMatch Logo" width={80} height={35} className="mr-2 transition-transform duration-300 hover:scale-105" />
+              <span className="text-sm font-bold transition-transform duration-300 hover:scale-105">Match Your Meal</span>
             </div>
             {/* Department and University */}
             <div className="text-sm mb-0 md:mb-0">
@@ -138,7 +144,9 @@ export default function Home() {
             </div>
           </div>
           <div className="flex flex-col items-center mt-4">
-            <p className="text-xs text-center mb-2">We gratefully acknowledge the support of our partners, mentors, and contributors. This website is developed and maintained by the NutriMatch Team.</p>
+            <p className="text-xs text-center mb-2 transition-opacity duration-300 hover:opacity-80">
+              We gratefully acknowledge the support of our mentors. This website is developed and maintained by the BER3 Team.
+            </p>
             <p className="text-xs text-center">© {new Date().getFullYear()} NutriMatch. All rights reserved.</p>
           </div>
         </div>
