@@ -9,7 +9,7 @@ import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
 
 // Types for our food data
 interface Food {
-  id: number
+  recipe_id: number
   name: string
   category: string
   description?: string
@@ -45,7 +45,18 @@ export default function FoodRecommendations() {
   const [foods, setFoods] = useState<Food[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
-  const [expandedCards, setExpandedCards] = useState<{ [key: number]: boolean }>({})
+  const [expandedCardId, setExpandedCardId] = useState<number | null>(null)
+  
+  // Add CSS for fade-in animation
+  const fadeInStyle = `
+    @keyframes fadeIn {
+      from { opacity: 0; max-height: 0; }
+      to { opacity: 1; max-height: 500px; }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.3s ease-in-out;
+    }
+  `
 
   const fetchFoodRecommendations = async () => {
     setLoading(true)
@@ -77,7 +88,10 @@ export default function FoodRecommendations() {
 
       const data = await response.json()
 
-      const updatedFoods = data.map((food: any) => ({
+      // Limit to 15 foods if needed
+      const limitedData = data.slice(0, 15)
+
+      const updatedFoods = limitedData.map((food: any) => ({
         ...food,
         nutrition: {
           calories: parseFloat(food.nutrition.calories || "0"),
@@ -93,6 +107,8 @@ export default function FoodRecommendations() {
       }));
 
       setFoods(updatedFoods)
+      // Reset expanded card when getting new results
+      setExpandedCardId(null)
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred")
       console.error(err)
@@ -121,11 +137,12 @@ export default function FoodRecommendations() {
   }
 
   function handleToggleCard(id: number) {
-    setExpandedCards(prev => ({ ...prev, [id]: !prev[id] }))
+    setExpandedCardId(expandedCardId === id ? null : id)
   }
 
   return (
     <main className="min-h-screen pt-20 pb-12 px-4">
+      <style>{fadeInStyle}</style>
       <div className="container mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-bold text-green-800 mb-4">Food Choices</h1>
@@ -169,8 +186,8 @@ export default function FoodRecommendations() {
             {/* Calories Slider */}
             <div>
               <div className="flex justify-between items-center mb-2">
-                <Label className="text-sm font-medium text-gray-700">Calories (0-1000g)</Label>
-                <span className="text-sm text-gray-500">{calories[0]}g</span>
+                <Label className="text-sm font-medium text-gray-700">Kalori (0-1000kkal)</Label>
+                <span className="text-sm text-gray-500">{calories[0]}kkal</span>
               </div>
               <Slider defaultValue={[0]} max={1000} step={10} value={calories} onValueChange={setCalories} />
             </div>
@@ -178,7 +195,7 @@ export default function FoodRecommendations() {
             {/* Fat Slider */}
             <div>
               <div className="flex justify-between items-center mb-2">
-                <Label className="text-sm font-medium text-gray-700">Fat (0-100g)</Label>
+                <Label className="text-sm font-medium text-gray-700">Lemak (0-100g)</Label>
                 <span className="text-sm text-gray-500">{fat[0]}g</span>
               </div>
               <Slider defaultValue={[0]} max={100} step={1} value={fat} onValueChange={setFat} />
@@ -187,7 +204,7 @@ export default function FoodRecommendations() {
             {/* Saturated Fat Slider */}
             <div>
               <div className="flex justify-between items-center mb-2">
-                <Label className="text-sm font-medium text-gray-700">Saturated Fat (0-100g)</Label>
+                <Label className="text-sm font-medium text-gray-700">Lemak Jenuh (0-100g)</Label>
                 <span className="text-sm text-gray-500">{saturatedFat[0]}g</span>
               </div>
               <Slider defaultValue={[0]} max={100} step={1} value={saturatedFat} onValueChange={setSaturatedFat} />
@@ -196,7 +213,7 @@ export default function FoodRecommendations() {
             {/* Cholesterol Slider */}
             <div>
               <div className="flex justify-between items-center mb-2">
-                <Label className="text-sm font-medium text-gray-700">Cholesterol (0-300mg)</Label>
+                <Label className="text-sm font-medium text-gray-700">Kolesterol (0-300mg)</Label>
                 <span className="text-sm text-gray-500">{cholesterol[0]}mg</span>
               </div>
               <Slider defaultValue={[0]} max={300} step={5} value={cholesterol} onValueChange={setCholesterol} />
@@ -205,7 +222,7 @@ export default function FoodRecommendations() {
             {/* Sodium Slider */}
             <div>
               <div className="flex justify-between items-center mb-2">
-                <Label className="text-sm font-medium text-gray-700">Sodium (0-2000mg)</Label>
+                <Label className="text-sm font-medium text-gray-700">Natrium (0-2000mg)</Label>
                 <span className="text-sm text-gray-500">{sodium[0]}mg</span>
               </div>
               <Slider defaultValue={[0]} max={2000} step={50} value={sodium} onValueChange={setSodium} />
@@ -214,7 +231,7 @@ export default function FoodRecommendations() {
             {/* Carbohydrates Slider */}
             <div>
               <div className="flex justify-between items-center mb-2">
-                <Label className="text-sm font-medium text-gray-700">Carbohydrates (0-200g)</Label>
+                <Label className="text-sm font-medium text-gray-700">Karbohidrat (0-200g)</Label>
                 <span className="text-sm text-gray-500">{carbohydrates[0]}g</span>
               </div>
               <Slider defaultValue={[0]} max={200} step={5} value={carbohydrates} onValueChange={setCarbohydrates} />
@@ -223,7 +240,7 @@ export default function FoodRecommendations() {
             {/* Fiber Slider */}
             <div>
               <div className="flex justify-between items-center mb-2">
-                <Label className="text-sm font-medium text-gray-700">Fiber (0-50g)</Label>
+                <Label className="text-sm font-medium text-gray-700">Serat (0-50g)</Label>
                 <span className="text-sm text-gray-500">{fiber[0]}g</span>
               </div>
               <Slider defaultValue={[0]} max={50} step={1} value={fiber} onValueChange={setFiber} />
@@ -232,7 +249,7 @@ export default function FoodRecommendations() {
             {/* Sugar Slider */}
             <div>
               <div className="flex justify-between items-center mb-2">
-                <Label className="text-sm font-medium text-gray-700">Sugar (0-100g)</Label>
+                <Label className="text-sm font-medium text-gray-700">Gula (0-100g)</Label>
                 <span className="text-sm text-gray-500">{sugar[0]}g</span>
               </div>
               <Slider defaultValue={[0]} max={100} step={1} value={sugar} onValueChange={setSugar} />
@@ -259,54 +276,100 @@ export default function FoodRecommendations() {
           )}
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {foods.length === 0 && !loading && (
+              <div className="col-span-3 text-center text-gray-600 py-8">
+                Belum ada hasil makanan. Silakan pilih kategori dan nutrisi, lalu klik "Cari Makanan".
+              </div>
+            )}
+
             {foods.map((food) => {
-              const ingredients = food.ingredients?.[0]
-              const parts = parseListString(ingredients?.ingredient_parts)
-              const quantities = parseListString(ingredients?.ingredient_quantity)
+              const ingredients = food.ingredients?.[0];
+              const parts = parseListString(ingredients?.ingredient_parts);
+              const quantities = parseListString(ingredients?.ingredient_quantity);
+              const isExpanded = expandedCardId === food.recipe_id;
 
               return (
-                <Card key={food.id} className="border border-green-600 shadow-md">
-                  <CardHeader>
-                    <CardTitle className="text-lg font-semibold text-green-800">{food.name}</CardTitle>
-                    <CardDescription>{food.category}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="text-sm text-gray-700 space-y-1">
-                    <p>Calories: {displayValue(food.nutrition.calories)}</p>
-                    <p>Fat: {displayValue(food.nutrition.fat_content)}g</p>
-                    <p>Saturated Fat: {displayValue(food.nutrition.saturated_fat_content)}g</p>
-                    <p>Cholesterol: {displayValue(food.nutrition.cholesterol_content)}mg</p>
-                    <p>Sodium: {displayValue(food.nutrition.sodium_content)}mg</p>
-                    <p>Carbohydrates: {displayValue(food.nutrition.carbohydrate_content)}g</p>
-                    <p>Fiber: {displayValue(food.nutrition.fiber_content)}g</p>
-                    <p>Sugar: {displayValue(food.nutrition.sugar_content)}g</p>
-                    <p>Protein: {displayValue(food.nutrition.protein_content)}g</p>
-                  </CardContent>
-                  <CardFooter className="flex flex-col gap-2">
-                    <Button onClick={() => handleToggleCard(food.id)} className="bg-green-700 hover:bg-green-800 text-white w-full">
-                      {expandedCards[food.id] ? "Hide Details" : "Show Details"}
-                    </Button>
+                <Card 
+  key={food.recipe_id} 
+  className={`min-h-[500px] flex flex-col justify-between border border-green-600 shadow-md transition-all duration-300 ${isExpanded ? 'h-auto' : 'h-[500px]'}`}
+>
+  <CardHeader className="pb-2">
+    <CardTitle className="text-lg font-semibold text-green-800">{food.name}</CardTitle>
+    <CardDescription>{food.category}</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <div className="grid grid-cols-2 gap-2">
+      <div className="bg-green-50 p-2 rounded">
+        <p className="text-sm text-gray-500">Kalori</p>
+        <p className="font-semibold">{food.nutrition.calories}kkal</p>
+      </div>
+      <div className="bg-green-50 p-2 rounded">
+        <p className="text-sm text-gray-500">Protein</p>
+        <p className="font-semibold">{food.nutrition.protein_content}g</p>
+      </div>
+      <div className="bg-green-50 p-2 rounded">
+        <p className="text-sm text-gray-500">Karbohidrat</p>
+        <p className="font-semibold">{food.nutrition.carbohydrate_content}g</p>
+      </div>
+      <div className="bg-green-50 p-2 rounded">
+        <p className="text-sm text-gray-500">Lemak</p>
+        <p className="font-semibold">{food.nutrition.fat_content}g</p>
+      </div>
+    </div>
 
-                    {expandedCards[food.id] && (
-                      <div className="mt-2 w-full text-sm text-gray-800">
-                        <p className="font-semibold text-green-800 mb-1">Description:</p>
-                        <p className="mb-2">{food.description?.trim() || "-"}</p>
-                        <p className="font-semibold text-green-800">Ingredients:</p>
-                        <ul className="list-disc list-inside">
-                          {parts.length > 0 || quantities.length > 0 ? (
-                            parts.map((part, i) => (
-                              <li key={i}>
-                                {part || "-"}: {quantities[i] || "-"}
-                              </li>
-                            ))
-                          ) : (
-                            <li>-</li>
-                          )}
-                        </ul>
-                      </div>
-                    )}
-                  </CardFooter>
-                </Card>
-              )
+    <div className="mt-4">
+      <h4 className="text-sm font-medium text-gray-700 mb-2">Nutrisi Terperinci</h4>
+      <div className="space-y-1 text-sm">
+        <div className="flex justify-between">
+          <span>Lemak Jenuh:</span>
+          <span>{food.nutrition.saturated_fat_content}g</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Kolesterol:</span>
+          <span>{food.nutrition.cholesterol_content}mg</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Natrium:</span>
+          <span>{food.nutrition.sodium_content}mg</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Serat:</span>
+          <span>{food.nutrition.fiber_content}g</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Gula:</span>
+          <span>{food.nutrition.sugar_content}g</span>
+        </div>
+      </div>
+    </div>
+  </CardContent>
+  <CardFooter className="flex flex-col gap-2">
+    <Button 
+      onClick={() => handleToggleCard(food.recipe_id)} 
+      className={`${isExpanded ? "bg-red-600 hover:bg-red-700" : "bg-green-700 hover:bg-green-800"} text-white w-full transition-colors`}
+    >
+      {isExpanded ? "Hide Details" : "Show Details"}
+    </Button>
+
+    <div className={`mt-2 w-full text-sm text-gray-800 transition-all duration-300 ${isExpanded ? "max-h-96 overflow-auto" : "h-0 overflow-hidden"}`}>
+      <p className="font-semibold text-green-800 mb-1">Deskripsi:</p>
+      <p className="mb-2">{food.description?.trim() || "-"}</p>
+      <p className="font-semibold text-green-800">Resep Makanan:</p>
+      <ul className="list-disc list-inside">
+        {parts.length > 0 || quantities.length > 0 ? (
+          parts.map((part, i) => (
+            <li key={i}>
+              {part || "-"}: {quantities[i] || "-"}
+            </li>
+          ))
+        ) : (
+          <li>-</li>
+        )}
+      </ul>
+    </div>
+  </CardFooter>
+</Card>
+              );
             })}
           </div>
         </div>
