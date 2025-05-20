@@ -18,13 +18,13 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-gray-700 hover:text-green-600 font-medium">
+            <Link href="/" className="text-gray-700 hover:text-green-600 font-medium transition-transform duration-300 hover:scale-105">
               Home
             </Link>
-            <Link href="/recommendations" className="text-gray-700 hover:text-green-600 font-medium">
+            <Link href="/recommendations" className="text-gray-700 hover:text-green-600 font-medium transition-transform duration-300 hover:scale-105">
               Food Choices
             </Link>
-            <Link href="/faq" className="text-gray-700 hover:text-green-600 font-medium">
+            <Link href="/faq" className="text-gray-700 hover:text-green-600 font-medium transition-transform duration-300 hover:scale-105">
               FAQ
             </Link>
           </div>
