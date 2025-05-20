@@ -1,65 +1,52 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../../components/ui/accordion";
 
-// FAQ data - replace the answers with your own content
+// Data FAQ dalam Bahasa Indonesia
 const faqData = [
   {
-    question: "What is NutriMatch?",
+    question: "Apa itu NutriMatch?",
     answer:
-      "NutriMatch is a platform that helps you find foods that match your nutritional needs and preferences. Our goal is to make healthy eating easier by providing personalized food recommendations based on your dietary requirements.",
+      "NutriMatch adalah platform yang membantu Anda menemukan makanan yang sesuai dengan kebutuhan dan preferensi nutrisi Anda. Tujuan kami adalah mempermudah pola makan dengan memberikan rekomendasi makanan yang sesuai dengan preferensi Nutrisi Anda.",
   },
   {
-    question: "How does NutriMatch determine food recommendations?",
+    question: "Bagaimana NutriMatch menentukan rekomendasi makanan?",
     answer:
-      "NutriMatch analyzes nutritional content, dietary preferences, and health goals to suggest foods that best match your needs. Our algorithm considers macronutrients, micronutrients, and portion sizes to create balanced meal recommendations.",
+      "NutriMatch menganalisis kandungan nutrisi, preferensi nutrisi Anda untuk menyarankan makanan yang paling sesuai. Algoritma kami mempertimbangkan berbagai jenis nutrisi sesuai dengan preferensi Anda untuk menciptakan rekomendasi makanan yang seimbang.",
   },
   {
-    question: "Can I use NutriMatch for specific dietary restrictions?",
+    question: "Apakah saya bisa menggunakan NutriMatch untuk pembatasan nutrisi tertentu?",
     answer:
-      "Yes! NutriMatch can accommodate various dietary restrictions including vegetarian, vegan, gluten-free, dairy-free, and more. Simply select your dietary preferences in your profile, and our recommendations will be tailored accordingly.",
+      "Tentu! NutriMatch dapat menyesuaikan berbagai nutrisi yang sesuai dengan preferensi Anda. Cukup pilih preferensi nutrisi Anda di Food Choices, dan rekomendasi kami akan disesuaikan secara otomatis.",
   },
   {
-    question: "How often should I follow the recommended meal plans?",
+    question: "Apakah nilai gizi di NutriMatch akurat?",
     answer:
-      "For optimal results, we recommend following the meal plans consistently. However, flexibility is important for sustainable habits. Aim to follow recommendations 80-90% of the time, allowing room for special occasions and personal preferences.",
+      "Kami berusaha menyajikan data seakurat mungkin dengan menggunakan basis data nutrisi yang terpercaya. Namun, kandungan gizi aktual dapat sedikit berbeda tergantung pada kondisi penanaman, metode memasak, dan merek produk. Nilai yang ditampilkan merupakan estimasi terbaik kami.",
   },
   {
-    question: "Are the nutritional values in NutriMatch accurate?",
+    question: "Apakah NutriMatch bisa digunakan secara gratis?",
     answer:
-      "We strive for accuracy by using data from reputable nutritional databases. However, actual nutritional content may vary slightly based on factors like growing conditions, preparation methods, and brand differences. The values provided should be considered close approximations.",
+      "Ya, NutriMatch dapat digunakan secara gratis untuk fitur-fitur seperti rekomendasi makanan dan informasi gizi.",
   },
   {
-    question: "Can NutriMatch help with weight management?",
+    question: "Apakah NutriMatch hanya untuk orang yang sedang diet?",
     answer:
-      "Yes, NutriMatch can be a valuable tool for weight management. By providing nutritionally balanced meal recommendations and portion guidance, it helps you maintain appropriate calorie intake while ensuring you get essential nutrients.",
+      "Tidak. NutriMatch cocok untuk siapa saja yang ingin makan sesuai dengan preferensi nutrisi, tidak hanya untuk mereka yang sedang diet.",
   },
   {
-    question: "How can I provide feedback on food recommendations?",
+    question: "Apakah saya bisa melihat informasi nutrisi setiap makanan?",
     answer:
-      "We value your feedback! After trying a recommended food or meal, you can rate it in the app. This helps our system learn your preferences and improve future recommendations. You can also contact our support team directly with specific feedback or suggestions.",
-  },
-  {
-    question: "Is NutriMatch suitable for athletes or highly active individuals?",
-    answer:
-      "NutriMatch can adjust recommendations based on activity level and fitness goals. Athletes and active individuals can receive meal plans with appropriate calorie and macronutrient distributions to support performance and recovery.",
-  },
-  {
-    question: "How does NutriMatch handle food allergies?",
-    answer:
-      "Food safety is our priority. You can input your allergies in your profile, and our system will automatically exclude those foods from your recommendations. Always double-check ingredient lists if you have severe allergies.",
-  },
-  {
-    question: "Can I use NutriMatch for my entire family?",
-    answer:
-      "You can create multiple profiles for family members with different nutritional needs. This makes NutriMatch perfect for planning meals that work for the whole family while addressing individual dietary requirements.",
-  },
-]
+      "Tentu. Setiap makanan yang direkomendasikan dilengkapi dengan informasi nutrisi seperti kalori, protein, lemak, karbohidrat, dan kandungan mikronutrien lainnya.",
+  }
+];
 
 export default function FAQ() {
   return (
     <main className="min-h-screen pt-20 pb-12 px-4">
       <div className="container mx-auto max-w-3xl">
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-green-800 mb-4">Frequently Asked Questions</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-green-800 mb-4 transition-transform duration-300 hover:scale-105">
+            Frequently Asked Questions
+          </h1>
           <p className="text-xl text-gray-600">
             Jelajahi jawaban atas pertanyaan seputar gizi dan pelajari lebih lanjut tentang rekomendasi makanan kami.
           </p>
@@ -75,5 +62,5 @@ export default function FAQ() {
         </Accordion>
       </div>
     </main>
-  )
+  );
 }
