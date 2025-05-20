@@ -1,18 +1,17 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from .schemas.request import PredictRequest
-from .services.predictor import predict_and_get_recipes
+from app.schemas.request import PredictRequest
+from app.services.predictor import predict_and_get_recipes
+from app.services.db import get_recipe_details  # <--- tambahkan ini
 
-# Membuat instance FastAPI
 app = FastAPI()
 
-# Menambahkan CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Anda dapat mengganti "*" dengan domain frontend Anda (misalnya, "http://localhost:3000")
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Mengizinkan semua metode HTTP (GET, POST, dll.)
-    allow_headers=["*"],  # Mengizinkan semua header
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.post("/predict")
@@ -36,5 +35,16 @@ async def predict(request: PredictRequest):
         
         return result
 
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/recipes/{recipe_id}")
+async def get_recipe_info(recipe_id: int):
+    try:
+        result = get_recipe_details(recipe_id)
+        if not result:
+            raise HTTPException(status_code=404, detail="Recipe not found")
+        return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
