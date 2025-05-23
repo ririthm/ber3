@@ -1,4 +1,9 @@
-node_modules
-__pycache__
-node_modules
-.next
+# Node modules
+node_modules/
+
+# Next.js build output
+.next/
+
+# Python bytecode dan cache
+__pycache__/
+**/__pycache__/

@@ -1,11 +1,14 @@
+# app/main.py
+import logging
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from app.schemas.request import PredictRequest
 from app.services.predictor import predict_and_get_recipes
-from app.services.db import get_recipe_details  # <--- tambahkan ini
+
 
 app = FastAPI()
 
+# Middleware CORS supaya bisa diakses dari client manapun
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -29,22 +32,13 @@ async def predict(request: PredictRequest):
             "protein_content": request.protein_content,
         }
         result = predict_and_get_recipes(request.category, user_features)
-        
+
         if "error" in result:
+            logging.error(f"Prediction error: {result['error']}")
             raise HTTPException(status_code=404, detail=result["error"])
-        
+
         return result
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.get("/recipes/{recipe_id}")
-async def get_recipe_info(recipe_id: int):
-    try:
-        result = get_recipe_details(recipe_id)
-        if not result:
-            raise HTTPException(status_code=404, detail="Recipe not found")
-        return result
-    except Exception as e:
+        logging.exception("Unhandled exception in /predict")
         raise HTTPException(status_code=500, detail=str(e))
