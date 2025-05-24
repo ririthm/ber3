@@ -1,10 +1,11 @@
 import pandas as pd
 import numpy as np
-from sqlalchemy import create_engine
+import json
+from sqlalchemy import create_engine, text
 from ..core.model_loader import load_model_and_scaler
 
 # Koneksi ke database PostgreSQL
-DATABASE_URL = "postgresql://postgres:riri1605@localhost:5432/NutriMatch"
+DATABASE_URL = "postgresql://postgres:wdd123@localhost:5432/NutriMatch"
 engine = create_engine(DATABASE_URL)
 
 def predict_and_get_recipes(category: str, user_features: dict):
@@ -44,44 +45,78 @@ def predict_and_get_recipes(category: str, user_features: dict):
     # 5. Filter resep sesuai cluster user
     cluster_recipes = recipes_df[recipes_df['cluster'] == user_cluster]
 
-    # 6. Fallback jika tidak ada resep di cluster tersebut
-    if cluster_recipes.empty:
-        most_common_cluster = recipes_df['cluster'].mode()[0]
-        cluster_recipes = recipes_df[recipes_df['cluster'] == most_common_cluster]
-
     # 7. Scaling fitur resep untuk menghitung jarak
     db_features = scaler.transform(cluster_recipes[feature_cols])
 
-    # 8. Hitung jarak terdekat
-    sorted_indices = np.argsort(np.linalg.norm(db_features - scaled_user, axis=1))
+    # 8. Hitung jarak terdekat maksimal 15
+    distances = np.linalg.norm(db_features - scaled_user, axis=1)
+    sorted_indices = np.argsort(distances)
     top_recipes = cluster_recipes.iloc[sorted_indices[:15]]
 
-    # 9. Ambil bahan resep dari tabel ingredients
-    recipe_ids = top_recipes['recipe_id'].tolist()
-    if not recipe_ids:
-        return []
+    # Siapkan data untuk disimpan (gunakan array/list)
+    recipe_ids = [row['recipe_id'] for _, row in top_recipes.iterrows()]
+    recipe_names = [row['name'] for _, row in top_recipes.iterrows()]
+    similarity_scores = []
 
-    ingredient_query = """
+    # Hitung skor kecocokan berdasarkan jarak
+    for distance in distances[sorted_indices[:15]]:
+        similarity_score = round(1 / (1 + distance) * 100, 2)
+        similarity_scores.append(similarity_score)
+
+    # 9. Simpan input user, user cluster, dan top recipes dalam tabel predictions
+    insert_query = """
+        INSERT INTO predictions (category, calories, fat_content, saturated_fat_content, cholesterol_content,
+                                sodium_content, carbohydrate_content, fiber_content, sugar_content, protein_content,    
+                                user_cluster, recipe_ids, recipe_names, similarity_scores)
+        VALUES (:category, :calories, :fat_content, :saturated_fat_content, :cholesterol_content,        
+                :sodium_content, :carbohydrate_content, :fiber_content, :sugar_content, :protein_content,
+                :user_cluster, :recipe_ids, :recipe_names, :similarity_scores)
+    """
+
+    # Menyimpan hanya satu baris
+    with engine.connect() as connection:
+        with connection.begin():  # Memastikan transaksi di-commit
+            connection.execute(text(insert_query), {
+                "category": category,
+                "calories": user_features.get('calories', None),
+                "fat_content": user_features.get('fat_content', None),
+                "saturated_fat_content": user_features.get('saturated_fat_content', None),
+                "cholesterol_content": user_features.get('cholesterol_content', None),
+                "sodium_content": user_features.get('sodium_content', None),
+                "carbohydrate_content": user_features.get('carbohydrate_content', None),
+                "fiber_content": user_features.get('fiber_content', None),
+                "sugar_content": user_features.get('sugar_content', None),
+                "protein_content": user_features.get('protein_content', None),
+                "user_cluster": user_cluster,
+                "recipe_ids": json.dumps(recipe_ids),  # Menyimpan sebagai JSON array
+                "recipe_names": json.dumps(recipe_names),  # Menyimpan sebagai JSON array
+                "similarity_scores": json.dumps(similarity_scores)  # Menyimpan sebagai JSON array
+            })
+
+    # 10. Ambil bahan resep dari tabel ingredients
+    recipe_ids_str = ','.join(map(str, recipe_ids))  # Convert to string for SQL
+    ingredient_query = f"""
         SELECT recipe_id, ingredient_quantity, ingredient_parts
         FROM ingredients
-        WHERE recipe_id = ANY(%s)
+        WHERE recipe_id = ANY(ARRAY[{recipe_ids_str}])
     """
-    ingredients_df = pd.read_sql_query(ingredient_query, engine, params=(recipe_ids,))
+    ingredients_df = pd.read_sql_query(ingredient_query, engine)
 
-    # 10. Gabungkan hasil akhir
+    # 11. Gabungkan hasil akhir
     results = []
-    for _, row in top_recipes.iterrows():
-        recipe_id = row['recipe_id']
+    for i, row in enumerate(top_recipes.iterrows()):
+        recipe_id = row[1]['recipe_id']
         ingredients = ingredients_df[ingredients_df['recipe_id'] == recipe_id][[
             'ingredient_quantity', 'ingredient_parts'
         ]].to_dict(orient='records')
 
         result = {
             "recipe_id": recipe_id,
-            "name": row["name"],
-            "description": row["description"],
-            "nutrition": {key: row[key] for key in feature_cols},
-            "ingredients": ingredients
+            "name": row[1]["name"],
+            "description": row[1]["description"],
+            "nutrition": {key: row[1][key] for key in feature_cols},
+            "ingredients": ingredients,
+            "similarity": similarity_scores[i]  # Add similarity percentage for each recipe
         }
         results.append(result)
 

@@ -1,4 +1,4 @@
-// File: C:\Users\Bintang\Documents\PBLFoodRecSys\PBL\ber3\frontend\app\layout.tsx
+// File: C:\Users\Bintang\Documents\PBLFoodRecSys\PEBL\ber3\frontend\app\layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
