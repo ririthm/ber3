@@ -3,93 +3,80 @@
 NutriMatch is a personalized food recommendation system that delivers tailored meal suggestions based on user preferences and nutritional profiles. The application is deployed via Docker and accessible through a user-friendly web interface, providing seamless and efficient food recommendations.
 
 # Struktur File
-│   .gitignore
-│   docker-compose.yml
-│   NutriMatch.sql
+.
+├── backend/
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── core/
+│   │   │   └── model_loader.py
+│   │   ├── schemas/
+│   │   │   └── request.py
+│   │   └── services/
+│   │       └── predictor.py
+│   └── model/
+│       ├── scaler.pkl
+│       ├── scaling_params.json
+│       └── kmeans/
+│           ├── Beverage_kmeans_model.pkl
+│           ├── Bread_kmeans_model.pkl
+│           ├── Dairy_kmeans_model.pkl
+│           ├── Dessert_kmeans_model.pkl
+│           ├── Fruits_and_Vegetables_kmeans_model.pkl
+│           ├── Grains_kmeans_model.pkl
+│           ├── Lunch_kmeans_model.pkl
+│           ├── Meat_kmeans_model.pkl
+│           ├── Pasta_kmeans_model.pkl
+│           ├── Poultry_kmeans_model.pkl
+│           ├── Sauces_and_Dressings_kmeans_model.pkl
+│           ├── Seafood_kmeans_model.pkl
+│           ├── Soup_kmeans_model.pkl
+│           └── Spreads_kmeans_model.pkl
 │
-├───backend
-│   │   Dockerfile
-│   │   requirements.txt
-│   │
-│   ├───app
-│   │   │   main.py
-│   │   │
-│   │   ├───core
-│   │   │       model_loader.py
-│   │   │
-│   │   ├───schemas
-│   │   │       request.py
-│   │   │
-│   │   └───services
-│   │           predictor.py
-│   │
-│   └───model
-│       │   scaler.pkl
-│       │   scaling_params.json
-│       │
-│       └───kmeans
-│               Beverage_kmeans_model.pkl
-│               Bread_kmeans_model.pkl
-│               Dairy_kmeans_model.pkl
-│               Dessert_kmeans_model.pkl
-│               Fruits__and__Vegetables_kmeans_model.pkl
-│               Grains_kmeans_model.pkl
-│               Lunch_kmeans_model.pkl
-│               Meat_kmeans_model.pkl
-│               Pasta_kmeans_model.pkl
-│               Poultry_kmeans_model.pkl
-│               Sauces_and_Dressings_kmeans_model.pkl
-│               Seafood_kmeans_model.pkl
-│               Soup_kmeans_model.pkl
-│               Spreads_kmeans_model.pkl
+├── frontend/
+│   ├── Dockerfile
+│   ├── globals.css
+│   ├── next-env.d.ts
+│   ├── next.config.js
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── tailwind.config.js
+│   ├── tsconfig.json
+│   ├── app/
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── api/
+│   │   │   └── recommendation/
+│   │   │       └── route.ts
+│   │   ├── faq/
+│   │   │   └── page.tsx
+│   │   └── recommendations/
+│   │       └── page.tsx
+│   ├── components/
+│   │   ├── navbar.tsx
+│   │   └── ui/
+│   │       ├── accordion.tsx
+│   │       ├── button.tsx
+│   │       ├── card.tsx
+│   │       ├── label.tsx
+│   │       ├── select.tsx
+│   │       └── slider.tsx
+│   ├── lib/
+│   │   └── utils.ts
+│   └── public/
+│       ├── article-1.png
+│       ├── article-2.png
+│       ├── article-3.png
+│       ├── food-hero.png
+│       ├── logo-white-2.png
+│       ├── logo-white.png
+│       └── logo.png
 │
-└───frontend
-    │   Dockerfile
-    │   globals.css
-    │   next-env.d.ts
-    │   next.config.js
-    │   package-lock.json
-    │   package.json
-    │   postcss.config.js
-    │   tailwind.config.js
-    │   tsconfig.json
-    │
-    ├───app
-    │   │   layout.tsx
-    │   │   page.tsx
-    │   │
-    │   ├───api
-    │   │   └───recommendation
-    │   │           route.ts
-    │   │
-    │   ├───faq
-    │   │       page.tsx
-    │   │
-    │   └───recommendations
-    │           page.tsx
-    │
-    ├───components
-    │   │   navbar.tsx
-    │   │
-    │   └───ui
-    │           accordion.tsx
-    │           button.tsx
-    │           card.tsx
-    │           label.tsx
-    │           select.tsx
-    │           slider.tsx
-    │
-    ├───lib
-    │       utils.ts
-    │
-    └───public
-            article-1.png
-            article-2.png
-            article-3.png
-            food-hero.png
-            logo-white-2.png
-            logo-white.png
-            logo.png
+├── .gitignore
+├── docker-compose.yml
+└── NutriMatch.sql
 
 # Feature
 - Food recommendation system using collaborative/content-based filtering
