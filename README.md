@@ -95,7 +95,7 @@ The system leverages:
 
 ## Installation
 
-1. Clone the repository:
+1. Clone the repository
 ```bash
 git clone https://github.com/ririthm/ber3.git
 cd ber3
@@ -104,7 +104,7 @@ cd ber3
 ```bash
 docker-compose up --build
 ```
-3. Import SQL data into the running database container database
+3. Open a new terminal window (keep the original terminal running Docker Compose open) to import SQL data into the running database container:
 3.1. Copy SQL file into the container
 ```bash
 docker cp NutriMatch.sql ber3-db-1:/NutriMatch.sql
