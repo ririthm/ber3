@@ -115,6 +115,9 @@ docker exec -it ber3-db-1 bash
 ```
 3.3. Create the database manually
 ```bash
+psql -U postgres
+```
+```bash
 CREATE DATABASE "NutriMatch";
 \q
 ```
