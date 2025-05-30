@@ -89,7 +89,7 @@ NutriMatch is a personalized food recommendation system that delivers tailored m
 NutriMatch utilizes a knowledge-based and content-based recommender system trained on user-food interactions and nutritional profiles.
 
 The system leverages:
-- Clustering algorithms (e.g., KMeans) to group similar food items based on their nutritional attributes, enabling better segmentation of user input.
+- Clustering algorithms, with KMeans, to group similar food items based on their nutritional attributes, enabling better segmentation of user input.
 - Euclidean distance as a similarity metric to measure how close food items are to user preference profiles within the feature space.
 - Content-based filtering that recommends the top 15 food items with the lowest Euclidean distance, effectively suggesting nutritionally similar foods tailored to the user.
 
