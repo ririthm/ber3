@@ -137,6 +137,24 @@ http://localhost:3002
 http://localhost:8000/docs
 ```
 
+# Open the `predictions` Table 
+1. Access the database container
+```bash
+docker exec -it ber3-db-1 bash
+```
+2. Open the PostgreSQL client connected to the NutriMatch database
+```bash
+psql -U postgres -d NutriMatch
+```
+3. List all tables
+```bash
+docker exec -it ber3-db-1 bash
+```
+4. View the top 10 rows from the `predictions` table
+```bash
+SELECT * FROM predictions LIMIT 10;
+```
+
 # Contributing
 - Fork this repository
 - Create a new branch
