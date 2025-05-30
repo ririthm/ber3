@@ -1,6 +1,6 @@
-# NutriMatch: Personalized Food Recommendation System
+# NutriMatch: Food Recommendation System
 
-NutriMatch is a personalized food recommendation system that delivers tailored meal suggestions based on user preferences and nutritional profiles. The application is deployed via Docker and accessible through a user-friendly web interface, providing seamless and efficient food recommendations.
+NutriMatch is a food recommendation system that provides personalized meal suggestions based on users' nutritional preferences. The application is containerized using Docker and accessible through a user-friendly web interface, offering seamless and efficient food recommendations.
 
 ## Struktur File
 ```
@@ -79,7 +79,7 @@ NutriMatch is a personalized food recommendation system that delivers tailored m
 ```
 
 ## Feature
-- Food recommendation system using collaborative/content-based filtering
+- Food recommendation system using knowledge-based and content-based filtering
 - PostgreSQL backend for data storage
 - FastAPI backend
 - Dockerized architecture with Docker Compose
