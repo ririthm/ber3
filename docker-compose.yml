@@ -13,7 +13,7 @@ services:
       - DB_PORT=5432
       - DB_NAME=NutriMatch
       - DB_USER=postgres
-      - DB_PASSWORD=riri1605
+      - DB_PASSWORD=ber3
 
   frontend:
     build:
@@ -28,7 +28,7 @@ services:
     environment:
       POSTGRES_DB: NutriMatch
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: riri1605
+      POSTGRES_PASSWORD: ber3
     ports:
       - "5432:5432"
     volumes:
