@@ -17,13 +17,15 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@types/node": "^22.15.18",
+    "@types/node": "22.15.24",
     "@types/react": "19.1.4",
-    "typescript": "^5.8.3"
+    "typescript": "5.8.3"
   },
+
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "export": "next export",
+    "start": "serve -s out -l 3002"
   }
 }
