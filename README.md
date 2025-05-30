@@ -104,7 +104,7 @@ cd ber3
 ```bash
 docker-compose up --build
 ```
-3. Masukkan tabel sql menuju container docker database
+3. Import SQL data into the running database container database
 3.1. Copy SQL file into the container
 ```bash
 docker cp NutriMatch.sql ber3-db-1:/NutriMatch.sql
@@ -113,7 +113,12 @@ docker cp NutriMatch.sql ber3-db-1:/NutriMatch.sql
 ```bash
 docker exec -it ber3-db-1 bash
 ```
-3.3. Execute SQL script
+3.3. Create the database manually
+```bash
+CREATE DATABASE "NutriMatch";
+\q
+```
+3.4 Execute SQL script
 ```bash
 psql -U postgres -d NutriMatch -f /NutriMatch.sql
 ```
@@ -125,7 +130,7 @@ http://localhost:3002
 ```
 - FastAPI
 ```bash
-http://localhost:8000
+http://localhost:8000/docs
 ```
 - FastAPI endpoint /predict
 ```bash

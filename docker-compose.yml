@@ -9,7 +9,7 @@ services:
     depends_on:
       - db
     environment:
-      - DB_HOST=localhost
+      - DB_HOST=db
       - DB_PORT=5432
       - DB_NAME=NutriMatch
       - DB_USER=postgres
