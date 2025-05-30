@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, text
 from ..core.model_loader import load_model_and_scaler
 
 # Koneksi ke database PostgreSQL
-DATABASE_URL = "postgresql://postgres:wdd123@localhost:5432/NutriMatch"
+DATABASE_URL = "postgresql://postgres:riri1605@db:5432/NutriMatch"
 engine = create_engine(DATABASE_URL)
 
 def predict_and_get_recipes(category: str, user_features: dict):
