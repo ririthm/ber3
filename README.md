@@ -2,7 +2,7 @@
 
 NutriMatch is a personalized food recommendation system that delivers tailored meal suggestions based on user preferences and nutritional profiles. The application is deployed via Docker and accessible through a user-friendly web interface, providing seamless and efficient food recommendations.
 
-# Struktur File
+## Struktur File
 ```
 .
 ├── backend/
@@ -78,14 +78,14 @@ NutriMatch is a personalized food recommendation system that delivers tailored m
 └── NutriMatch.sql
 ```
 
-# Feature
+## Feature
 - Food recommendation system using collaborative/content-based filtering
 - PostgreSQL backend for data storage
 - FastAPI backend
 - Dockerized architecture with Docker Compose
 - SQL import automation
 
-# Model Overview
+## Model Overview
 NutriMatch utilizes a knowledge-based and content-based recommender system trained on user-food interactions and nutritional profiles.
 
 The system leverages:
@@ -132,17 +132,17 @@ psql -U postgres -d NutriMatch -f /NutriMatch.sql
 ```bash
 http://localhost:3002
 ```
-- FastAPI
+- Navigate to the API with FastAPI
 ```bash
 http://localhost:8000/docs
 ```
 
-# Open the `predictions` Table 
+## Open the `predictions` Table 
 1. Access the database container
 ```bash
 docker exec -it ber3-db-1 bash
 ```
-2. Open the PostgreSQL client connected to the NutriMatch database
+2. Open the PostgreSQL client connected to the `NutriMatch` database
 ```bash
 psql -U postgres -d NutriMatch
 ```
@@ -155,11 +155,11 @@ docker exec -it ber3-db-1 bash
 SELECT * FROM predictions LIMIT 10;
 ```
 
-# Contributing
+## Contributing
 - Fork this repository
 - Create a new branch
 - Make changes and commit
 - Push and open a pull request
 
-# License
-This project is licensed under the Politeknik Elektronika Negeri Surabaya License.
+## License
+This project is licensed under the BER3 Team Applied Data Science - Politeknik Elektronika Negeri Surabaya License.
