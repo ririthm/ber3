@@ -135,10 +135,6 @@ http://localhost:3002
 ```bash
 http://localhost:8000/docs
 ```
-- FastAPI endpoint /predict
-```bash
-http://localhost:8000/docs/predict
-```
 
 # Contributing
 - Fork this repository
