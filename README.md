@@ -3,6 +3,7 @@
 NutriMatch is a personalized food recommendation system that delivers tailored meal suggestions based on user preferences and nutritional profiles. The application is deployed via Docker and accessible through a user-friendly web interface, providing seamless and efficient food recommendations.
 
 # Struktur File
+```
 .
 ├── backend/
 │   ├── Dockerfile
@@ -33,7 +34,6 @@ NutriMatch is a personalized food recommendation system that delivers tailored m
 │           ├── Seafood_kmeans_model.pkl
 │           ├── Soup_kmeans_model.pkl
 │           └── Spreads_kmeans_model.pkl
-│
 ├── frontend/
 │   ├── Dockerfile
 │   ├── globals.css
@@ -73,10 +73,10 @@ NutriMatch is a personalized food recommendation system that delivers tailored m
 │       ├── logo-white-2.png
 │       ├── logo-white.png
 │       └── logo.png
-│
 ├── .gitignore
 ├── docker-compose.yml
 └── NutriMatch.sql
+```
 
 # Feature
 - Food recommendation system using collaborative/content-based filtering
@@ -104,23 +104,19 @@ cd ber3
 ```bash
 docker-compose up --build
 ```
-
 3. Masukkan tabel sql menuju container docker database
 3.1. Copy SQL file into the container
 ```bash
 docker cp NutriMatch.sql ber3-db-1:/NutriMatch.sql
 ```
-
 3.2. Enter the database container
 ```bash
 docker exec -it ber3-db-1 bash
 ```
-
 3.3. Execute SQL script
 ```bash
 psql -U postgres -d NutriMatch -f /NutriMatch.sql
 ```
-
 4. Access the Interface
 - Open Docker Desktop and ensure containers are running.
 - Navigate to the web interface:
