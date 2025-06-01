@@ -148,7 +148,7 @@ psql -U postgres -d NutriMatch
 ```
 3. List all tables
 ```bash
-docker exec -it ber3-db-1 bash
+\dt
 ```
 4. View the top 10 rows from the `predictions` table
 ```bash
